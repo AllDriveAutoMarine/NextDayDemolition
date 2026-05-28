@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Next Day Demolition & Junk Removal | Kyle Hutchins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Teko:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #070707;
+      --dark:    #0e0e0e;
+      --card:    #131313;
+      --border:  #242424;
+      --orange:  #e85d04;
+      --orange2: #f48c06;
+      --yellow:  #ffc300;
+      --white:   #f0ede8;
+      --muted:   #686868;
+      --font-d:  'Black Han Sans', sans-serif;
+      --font-t:  'Teko', sans-serif;
+      --font-b:  'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-b);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* GRAIN TEXTURE */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: .55;
+    }
+
+    /* DIAGONAL HAZARD STRIPE - top accent */
+    .hazard-bar {
+      height: 5px;
+      background: repeating-linear-gradient(
+        -45deg,
+        var(--orange) 0px,
+        var(--orange) 10px,
+        var(--black) 10px,
+        var(--black) 20px
+      );
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 5%;
+      background: rgba(7,7,7,.93);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; flex-direction: column; gap: 0;
+      text-decoration: none;
+    }
+    .nav-logo-main {
+      font-family: var(--font-d);
+      font-size: 1.15rem;
+      letter-spacing: .04em;
+      color: var(--white);
+      line-height: 1;
+      text-transform: uppercase;
+    }
+    .nav-logo-main span { color: var(--orange); }
+    .nav-logo-sub {
+      font-size: .58rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: .75rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--orange); color: var(--white);
+      padding: .58rem 1.4rem; font-weight: 700;
+      font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+      text-decoration: none; font-family: var(--font-b);
+      transition: background .2s, transform .15s;
+      clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+    }
+    .nav-cta:hover { background: var(--orange2); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 9rem 5% 5rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* BG elements */
+    .hero-bg-glow {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 70% at 75% 50%, rgba(232,93,4,.07) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 50% at 10% 80%, rgba(255,195,0,.04) 0%, transparent 50%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(232,93,4,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,93,4,.07) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 20%, transparent 75%);
+      opacity: .35;
+    }
+    /* Big torn number background */
+    .hero-bg-num {
+      position: absolute;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--font-d);
+      font-size: 32vw;
+      color: rgba(232,93,4,.04);
+      line-height: 1;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: -.03em;
+      user-select: none;
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 820px;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.4rem;
+      animation: fadeUp .5s ease both;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 30px; height: 2px;
+      background: var(--orange);
+    }
+
+    .hero-title {
+      font-family: var(--font-d);
+      font-size: clamp(3.8rem, 8.5vw, 8.5rem);
+      line-height: .92;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+      animation: fadeUp .65s .1s ease both;
+    }
+    .hero-title .line-accent {
+      display: block;
+      color: var(--orange);
+      -webkit-text-stroke: 2px var(--orange);
+      color: transparent;
+      font-size: clamp(2.8rem, 6vw, 6rem);
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      font-size: 1.05rem; font-weight: 300;
+      color: var(--muted); max-width: 500px; line-height: 1.75;
+      animation: fadeUp .65s .2s ease both;
+    }
+
+    .hero-actions {
+      margin-top: 2.4rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp .65s .3s ease both;
+    }
+
+    .btn-primary {
+      background: var(--orange); color: var(--white);
+      padding: .9rem 2.2rem; font-weight: 700;
+      font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+      border: none; cursor: pointer; text-decoration: none;
+      display: inline-block; font-family: var(--font-b);
+      clip-path: polygon(0 0, 100% 0, 96% 100%, 0 100%);
+      transition: background .2s, transform .15s, box-shadow .2s;
+    }
+    .btn-primary:hover { background: var(--orange2); transform: translateY(-2px); box-shadow: 0 10px 32px rgba(232,93,4,.3); }
+
+    .btn-ghost {
+      background: transparent; color: var(--white);
+      padding: .9rem 2.2rem; font-weight: 500;
+      font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+      border: 1px solid var(--border); cursor: pointer; text-decoration: none;
+      display: inline-block; font-family: var(--font-b);
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    .hero-stats {
+      margin-top: 3.5rem;
+      display: flex; gap: 3rem; flex-wrap: wrap;
+      animation: fadeUp .65s .4s ease both;
+    }
+    .stat { border-left: 3px solid var(--orange); padding-left: 1rem; }
+    .stat-num {
+      font-family: var(--font-t);
+      font-size: 2.6rem; line-height: 1;
+      color: var(--white); font-weight: 700;
+    }
+    .stat-num span { color: var(--orange); }
+    .stat-label {
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: var(--muted); margin-top: .15rem;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--orange);
+      overflow: hidden; padding: .65rem 0;
+    }
+    .marquee-track {
+      display: flex; white-space: nowrap;
+      animation: marquee 20s linear infinite;
+    }
+    .marquee-item {
+      font-family: var(--font-t);
+      font-size: .95rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--white);
+      padding: 0 2.5rem; flex-shrink: 0;
+    }
+    .marquee-item::after { content: '◆'; margin-left: 2.5rem; font-size: .5rem; vertical-align: middle; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 5.5rem 5%; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-size: .7rem; font-weight: 700; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: .7rem;
+    }
+    .section-tag::before { content: ''; width: 18px; height: 2px; background: var(--orange); }
+    .section-title {
+      font-family: var(--font-d);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      text-transform: uppercase; line-height: .97;
+      letter-spacing: .01em;
+    }
+    .section-sub {
+      color: var(--muted); font-size: .95rem; font-weight: 300;
+      max-width: 500px; margin-top: .7rem; line-height: 1.7;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--dark); }
+    .services-header { margin-bottom: 3rem; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1px; background: var(--border);
+    }
+    .svc-card {
+      background: var(--card);
+      padding: 2.2rem;
+      position: relative; overflow: hidden;
+      transition: background .2s;
+    }
+    .svc-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+      background: linear-gradient(to bottom, var(--orange), var(--yellow));
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .3s ease;
+    }
+    .svc-card:hover::before { transform: scaleY(1); }
+    .svc-card:hover { background: #1a1a1a; }
+    .svc-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+    .svc-title {
+      font-family: var(--font-t);
+      font-size: 1.55rem; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase;
+      margin-bottom: .5rem; line-height: 1.1;
+    }
+    .svc-desc { color: var(--muted); font-size: .88rem; line-height: 1.7; }
+
+    /* ── WORK GALLERY ── */
+    #work { background: var(--black); }
+    .gallery-header { margin-bottom: 2.5rem; }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 220px;
+      gap: 3px;
+    }
+    .gallery-item {
+      overflow: hidden; position: relative;
+      background: var(--card);
+    }
+    .gallery-item.wide { grid-column: span 2; }
+    .gallery-item.tall { grid-row: span 2; }
+    .gallery-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s ease, filter .4s ease;
+      filter: brightness(.8) saturate(.85);
+    }
+    .gallery-item:hover img { transform: scale(1.06); filter: brightness(1) saturate(1.1); }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: .7rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,.8));
+      font-size: .7rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(255,255,255,.85);
+      opacity: 0; transition: opacity .3s;
+    }
+    .gallery-item:hover .gallery-caption { opacity: 1; }
+    .gallery-caption a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+    .gallery-placeholder {
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: .5rem;
+      font-size: .72rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
+      color: #2a2a2a;
+    }
+    .gallery-placeholder span:first-child { font-size: 1.8rem; opacity: .2; }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--dark); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.2rem; margin-top: 2.8rem;
+    }
+    .t-card {
+      background: var(--card); border: 1px solid var(--border);
+      padding: 1.8rem; position: relative;
+      transition: border-color .2s, transform .2s;
+    }
+    .t-card:hover { border-color: rgba(232,93,4,.4); transform: translateY(-3px); }
+    .t-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .t-stars { color: var(--orange); font-size: .95rem; letter-spacing: .1em; }
+    .t-source {
+      font-size: .65rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .t-quote {
+      font-family: Georgia, serif;
+      font-size: 3rem; color: var(--orange);
+      line-height: .5; opacity: .3; margin-bottom: .6rem;
+    }
+    .t-text {
+      color: #aaa; font-size: .9rem; line-height: 1.75;
+      font-style: italic; margin-bottom: 1.3rem;
+    }
+    .t-author { display: flex; align-items: center; gap: .75rem; }
+    .t-avatar {
+      width: 38px; height: 38px; border-radius: 0;
+      background: var(--orange); display: flex; align-items: center;
+      justify-content: center; font-weight: 700; color: var(--white);
+      font-size: .78rem; flex-shrink: 0;
+      clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+    }
+    .t-name { font-weight: 600; font-size: .88rem; }
+    .t-date { color: var(--muted); font-size: .72rem; }
+
+    /* ── WHY US ── */
+    #why {
+      background: var(--black);
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+    .why-visual {
+      position: relative; aspect-ratio: 1; max-width: 420px;
+    }
+    /* Wrecking ball visual */
+    .why-ring {
+      position: absolute; inset: 0;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      animation: spin 24s linear infinite;
+    }
+    .why-ring:nth-child(2) { inset: 11%; border-color: rgba(232,93,4,.18); animation-duration: 16s; animation-direction: reverse; }
+    .why-ring:nth-child(3) { inset: 24%; border-color: rgba(232,93,4,.1); animation-duration: 10s; }
+    .why-center {
+      position: absolute; inset: 34%;
+      background: var(--orange); border-radius: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-d); font-size: 2.2rem;
+      color: var(--white);
+      clip-path: polygon(10% 0%, 90% 0%, 100% 10%, 100% 90%, 90% 100%, 10% 100%, 0% 90%, 0% 10%);
+    }
+    .why-dot { position: absolute; width: 6px; height: 6px; background: var(--orange); }
+    .why-dot:nth-child(5) { top: 6%; left: 47%; }
+    .why-dot:nth-child(6) { top: 47%; right: 4%; }
+    .why-dot:nth-child(7) { bottom: 8%; left: 16%; }
+
+    .why-list { display: flex; flex-direction: column; gap: 1.6rem; margin-top: 2.2rem; }
+    .why-item { display: flex; gap: 1.1rem; align-items: flex-start; }
+    .why-num {
+      font-family: var(--font-t);
+      font-size: 2rem; color: var(--orange);
+      line-height: 1; min-width: 2.2rem; font-weight: 700;
+    }
+    .why-item-title { font-weight: 600; margin-bottom: .2rem; font-size: .95rem; }
+    .why-item-desc { color: var(--muted); font-size: .87rem; line-height: 1.65; }
+
+    /* ── CONTACT / LEAD FORM ── */
+    #contact { background: var(--dark); position: relative; overflow: hidden; }
+    #contact::before {
+      content: '';
+      position: absolute; top: -20%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(circle, rgba(232,93,4,.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .contact-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+    .contact-inner .section-sub { margin-top: .7rem; }
+
+    .form-wrap {
+      margin-top: 2.8rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 2.5rem;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .form-group label {
+      font-size: .72rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .1em; color: var(--muted);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--dark); border: 1px solid var(--border);
+      color: var(--white); padding: .8rem 1rem;
+      font-family: var(--font-b); font-size: .92rem;
+      outline: none; transition: border-color .2s; width: 100%;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--orange); }
+    .form-group textarea { min-height: 110px; resize: vertical; }
+    .form-group select option { background: var(--dark); }
+    .form-submit {
+      width: 100%; margin-top: .5rem;
+      background: var(--orange); color: var(--white);
+      border: none; padding: 1rem;
+      font-family: var(--font-b); font-weight: 700;
+      font-size: .92rem; letter-spacing: .08em; text-transform: uppercase;
+      cursor: pointer; transition: background .2s, transform .15s;
+      clip-path: polygon(0 0, 100% 0, 98% 100%, 0 100%);
+    }
+    .form-submit:hover { background: var(--orange2); transform: translateY(-1px); }
+    .form-note { color: var(--muted); font-size: .75rem; margin-top: .8rem; text-align: center; }
+    .form-success {
+      display: none;
+      background: rgba(232,93,4,.1);
+      border: 1px solid rgba(232,93,4,.3);
+      color: var(--orange);
+      padding: 1rem; text-align: center;
+      font-weight: 600; margin-top: 1rem;
+      font-size: .9rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5%;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-logo {
+      font-family: var(--font-d);
+      font-size: 1.1rem; letter-spacing: .04em;
+      color: var(--white); text-transform: uppercase;
+    }
+    .footer-logo span { color: var(--orange); }
+    .footer-info { color: var(--muted); font-size: .78rem; line-height: 1.8; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      color: var(--muted); text-decoration: none; font-size: .78rem;
+      transition: color .2s; letter-spacing: .05em; text-transform: uppercase; font-weight: 500;
+    }
+    .footer-links a:hover { color: var(--orange); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .reveal {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 900px) {
+      #why { grid-template-columns: 1fr; }
+      .why-visual { display: none; }
+      .form-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+      .gallery-item.wide { grid-column: span 1; }
+      .gallery-item.tall { grid-row: span 1; }
+      .nav-links { display: none; }
+    }
+    @media(max-width: 600px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HAZARD BAR -->
+<div class="hazard-bar"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">
+    <div class="nav-logo-main">Next Day <span>Demolition</span></div>
+    <div class="nav-logo-sub">& Junk Removal · Kyle Hutchins</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Our Work</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Get a Quote</a></li>
+  </ul>
+  <a class="nav-cta" href="#contact">Free Quote</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-glow"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-bg-num">NDD</div>
+
+  <div class="hero-content">
+    <div class="hero-tag">Serving Your Area · Fast & Reliable</div>
+    <h1 class="hero-title">
+      Demo.<br>
+      Haul.<br>
+      <span class="line-accent">Gone Tomorrow.</span>
+    </h1>
+    <p class="hero-sub">
+      Whether it's a full demolition project or a junk removal job, Next Day Demolition gets it done fast. Kyle Hutchins brings hands-on experience and a no-nonsense work ethic to every job, big or small.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#contact">Get a Free Quote</a>
+      <a class="btn-ghost" href="#services">View Services</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">NEXT<span> DAY</span></div>
+        <div class="stat-label">Turnaround</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">FREE</div>
+        <div class="stat-label">Estimates</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5<span>★</span></div>
+        <div class="stat-label">Customer Rated</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Demolition</span>
+    <span class="marquee-item">Junk Removal</span>
+    <span class="marquee-item">Cleanouts</span>
+    <span class="marquee-item">Debris Hauling</span>
+    <span class="marquee-item">Same-Day Service</span>
+    <span class="marquee-item">Free Estimates</span>
+    <span class="marquee-item">Kyle Hutchins</span>
+    <span class="marquee-item">Demolition</span>
+    <span class="marquee-item">Junk Removal</span>
+    <span class="marquee-item">Cleanouts</span>
+    <span class="marquee-item">Debris Hauling</span>
+    <span class="marquee-item">Same-Day Service</span>
+    <span class="marquee-item">Free Estimates</span>
+    <span class="marquee-item">Kyle Hutchins</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <span class="section-tag">What We Do</span>
+    <h2 class="section-title">Services</h2>
+    <p class="section-sub">From tearing it down to hauling it away, Next Day Demolition handles the entire job so you don't have to lift a finger.</p>
+  </div>
+  <div class="services-grid reveal reveal-d1">
+    <div class="svc-card">
+      <span class="svc-icon">🏗️</span>
+      <div class="svc-title">Demolition</div>
+      <p class="svc-desc">Structures, sheds, decks, fences, interior walls, and more. We knock it down safely and efficiently with the right equipment for the job.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🚛</span>
+      <div class="svc-title">Junk Removal</div>
+      <p class="svc-desc">Old furniture, appliances, yard waste, construction debris — if you need it gone, we load it up and haul it away, same day or next day.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🏠</span>
+      <div class="svc-title">Property Cleanouts</div>
+      <p class="svc-desc">Estate cleanouts, garage cleanouts, and full property clearances handled top to bottom so you can move on without the mess.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🪨</span>
+      <div class="svc-title">Debris & Concrete Hauling</div>
+      <p class="svc-desc">Post-demo debris, concrete slabs, dirt, and rubble removed and properly disposed of so your site is clean and ready for what's next.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🌳</span>
+      <div class="svc-title">Yard & Land Clearing</div>
+      <p class="svc-desc">Brush, tree branches, overgrowth, and outdoor clutter cleared out. We leave your property looking clean and manageable.</p>
+    </div>
+    <div class="svc-card">
+      <span class="svc-icon">🔧</span>
+      <div class="svc-title">Commercial & Residential</div>
+      <p class="svc-desc">Whether it's a single-family home, rental property, or a commercial space, Next Day Demolition handles projects of any scale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK GALLERY -->
+<section id="work">
+  <div class="gallery-header reveal">
+    <span class="section-tag">Real Work</span>
+    <h2 class="section-title">From the Field</h2>
+    <p class="section-sub">No stock photos — just real jobs completed by Kyle and his crew. Add your own photos here to show customers exactly what you do.</p>
+  </div>
+  <div class="gallery-grid reveal reveal-d1">
+    <div class="gallery-item wide">
+      <div class="gallery-placeholder"><span>🏗️</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption or YouTube link here</div>
+    </div>
+    <div class="gallery-item tall">
+      <div class="gallery-placeholder"><span>🚛</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption here</div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder"><span>🏠</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption here</div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder"><span>🪨</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption here</div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder"><span>🌳</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption here</div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-placeholder"><span>🔧</span><span>Add Job Photo</span></div>
+      <div class="gallery-caption">Add a caption here</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="reveal">
+    <span class="section-tag">Customer Reviews</span>
+    <h2 class="section-title">What People Say</h2>
+    <p class="section-sub">Real feedback from real customers. Add Kyle's reviews here once collected.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="t-card reveal">
+      <div class="t-top">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-source">Google</div>
+      </div>
+      <div class="t-quote">"</div>
+      <p class="t-text">Replace this with a real customer review. Kyle's professionalism and speed are what customers will want to talk about.</p>
+      <div class="t-author">
+        <div class="t-avatar">CU</div>
+        <div>
+          <div class="t-name">Customer Name</div>
+          <div class="t-date">Add Date</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-top">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-source">Facebook</div>
+      </div>
+      <div class="t-quote">"</div>
+      <p class="t-text">Replace this with a real customer review from Facebook or Google. Specific details like "hauled away our entire garage in one trip" work great.</p>
+      <div class="t-author">
+        <div class="t-avatar">CU</div>
+        <div>
+          <div class="t-name">Customer Name</div>
+          <div class="t-date">Add Date</div>
+        </div>
+      </div>
+    </div>
+    <div class="t-card reveal">
+      <div class="t-top">
+        <div class="t-stars">★★★★★</div>
+        <div class="t-source">Google</div>
+      </div>
+      <div class="t-quote">"</div>
+      <p class="t-text">Replace this with a real customer review. Next day turnaround, fair pricing, and leaving the site clean are details that resonate with new customers.</p>
+      <div class="t-author">
+        <div class="t-avatar">CU</div>
+        <div>
+          <div class="t-name">Customer Name</div>
+          <div class="t-date">Add Date</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-visual">
+    <div class="why-ring"></div>
+    <div class="why-ring"></div>
+    <div class="why-ring"></div>
+    <div class="why-center">NDD</div>
+    <div class="why-dot"></div>
+    <div class="why-dot"></div>
+    <div class="why-dot"></div>
+  </div>
+  <div class="reveal">
+    <span class="section-tag">Why Next Day</span>
+    <h2 class="section-title">Built on Speed &amp; Trust.</h2>
+    <p class="section-sub">Kyle Hutchins started Next Day Demolition on a simple promise — show up when you say you will, do the job right, and leave the site cleaner than you found it.</p>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div>
+          <div class="why-item-title">Next Day Turnaround</div>
+          <p class="why-item-desc">The name says it all. When you need something gone, waiting weeks is not an option. We show up fast and get it done.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div>
+          <div class="why-item-title">Free Estimates, No Obligation</div>
+          <p class="why-item-desc">Every job starts with a clear, honest quote. You know exactly what you're paying before anyone picks up a sledgehammer.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div>
+          <div class="why-item-title">Full Cleanup Included</div>
+          <p class="why-item-desc">We don't just knock it down and leave — we haul away the debris and leave your property clean and ready for whatever comes next.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div>
+          <div class="why-item-title">Owner-Operated</div>
+          <p class="why-item-desc">Kyle personally oversees every job. When you call, you talk to the owner — not a call center. That accountability shows in the finished work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD FORM -->
+<section id="contact">
+  <div class="contact-inner reveal">
+    <span class="section-tag">Get Started</span>
+    <h2 class="section-title">Get a Free Quote</h2>
+    <p class="section-sub">Tell Kyle what you need done and he will get back to you quickly with a straightforward price and a time that works for you.</p>
+
+    <div class="form-wrap">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="fname" placeholder="John"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="lname" placeholder="Smith"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="phone" placeholder="(555) 000-0000"/>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="john@email.com"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Service Needed</label>
+        <select id="service">
+          <option value="">Select a service...</option>
+          <option>Demolition</option>
+          <option>Junk Removal</option>
+          <option>Property Cleanout</option>
+          <option>Debris & Concrete Hauling</option>
+          <option>Yard & Land Clearing</option>
+          <option>Commercial Project</option>
+          <option>Other / Not Sure</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell Us About the Job</label>
+        <textarea id="message" placeholder="Describe what needs to be demolished or removed, rough size of the job, and your location..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit()">Send My Request →</button>
+      <div class="form-success" id="success">✓ Request received! Kyle will be in touch shortly with your free quote.</div>
+      <p class="form-note">🔒 Your information stays private. We never share or sell your data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">Next Day <span>Demolition</span> &amp; Junk Removal</div>
+    <div class="footer-info">Owner: Kyle Hutchins &nbsp;·&nbsp; Fast, Reliable, Owner-Operated</div>
+  </div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#work">Our Work</a>
+    <a href="#testimonials">Reviews</a>
+    <a href="#contact">Get a Quote</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit() {
+    const fname = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    if (!fname || (!phone && !email)) {
+      alert('Please fill in your name and at least a phone number or email.');
+      return;
+    }
+    document.getElementById('success').style.display = 'block';
+    ['fname','lname','phone','email','service','message'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    const btn = document.querySelector('.form-submit');
+    btn.disabled = true;
+    btn.textContent = 'Request Sent ✓';
+  }
+</script>
+
+</body>
+</html>
